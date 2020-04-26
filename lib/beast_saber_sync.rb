@@ -15,16 +15,29 @@ class BeastSaberSync
 
   before do
     context.username ||= 'sanguinerane'
+    context.data = {}
   end
 
   def call
     puts 'Syncing...'
-    beast_saber.each_song do |song|
-      puts "#{song['song_key']} - #{song['hash']} - #{song['title']}"
-    end
+    load_bookmarks!
+    puts JSON.pretty_generate(context.data)
   end
 
 private
+
+  def load_bookmarks!
+    beast_saber.each_song do |song|
+      key = song['song_key']
+      hash = song['hash']
+      title = song['title']
+
+      context.data[key] ||= {}
+      context.data[key][:bookmarked] = true
+      context.data[key][:title] = title
+      context.data[key][:hash] = hash
+    end
+  end
 
   def beast_saber
     @beast_saber ||= BeastSaber.new(
