@@ -7,4 +7,4 @@ require 'rubygems'
 require 'bundler/setup'
 require 'beast_saber_sync'
 
-BeastSaberSync.run
+BeastSaberSync.call
