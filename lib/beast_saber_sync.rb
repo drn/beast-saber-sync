@@ -16,7 +16,15 @@ class BeastSaberSync
 
   before do
     context.username ||= 'sanguinerane'
-    context.path ||= '/cygdrive/f/Program Files (x86)/Steam/steamapps/common/Beat Saber'
+    context.path ||= [
+      'cygdrive',
+      'f',
+      'Program Files (x86)',
+      'Steam',
+      'steamapps',
+      'common',
+      'Beat Saber'
+    ].join('/')
     context.data = {}
   end
 
@@ -56,6 +64,8 @@ private
   end
 
   def beat_saber
-    @beat_saber ||= BeatSaber.new
+    @beat_saber ||= BeatSaber.new(
+      path: context.path
+    )
   end
 end

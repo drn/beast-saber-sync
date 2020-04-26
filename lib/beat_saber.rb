@@ -3,6 +3,10 @@
 require 'pry'
 
 class BeatSaber
+  def initialize(path:)
+    @path = path
+  end
+
   def songs
     puts files
     []
@@ -11,8 +15,6 @@ class BeatSaber
 private
 
   def files
-    Dir.entries(
-      '/cygdrive/f/Program Files (x86)/Steam/steamapps/common/Beat Saber/Beat Saber_Data/CustomLevels'
-    )
+    Dir.entries(@path + '/Beat Saber_Data/CustomLevels')
   end
 end
