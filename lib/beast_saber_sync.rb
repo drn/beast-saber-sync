@@ -35,6 +35,7 @@ class BeastSaberSync
     load_downloaded!
     download!
     prune!
+    update_playlist!
   end
 
 private
@@ -87,6 +88,30 @@ private
       ].join
       FileUtils.rm_rf(destination) if File.directory?(destination)
     end
+  end
+
+  def update_playlist!
+    destination = [
+      context.path,
+      '/Playlists/',
+      'BeastSaberBookmarks.json'
+    ].join
+    FileUtils.rm(destination) if File.directory?(destination)
+
+    playlist = {
+      playlistTitle:  'BeastSaber Playlist',
+      playlistAuthor: context.username,
+      image:          '1',
+      songs:          context.data.map do |hash, song|
+        next unless song[:bookmarked]
+        {
+          key:      song[:key],
+          hash:     hash,
+          songName: song[:title]
+        }
+      end.compact
+    }
+    File.write(destination, JSON.pretty_generate(playlist))
   end
 
   def beast_saber
