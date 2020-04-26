@@ -18,7 +18,7 @@ class BeastSaberSync
   before do
     context.username ||= 'sanguinerane'
     context.path ||= [
-      'cygdrive',
+      '/cygdrive',
       'f',
       'Program Files (x86)',
       'Steam',
