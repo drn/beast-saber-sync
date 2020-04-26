@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
+require 'beast_saber'
 require 'interactor'
-require 'faraday'
-require 'faraday_middleware'
-require 'pry'
 
 # Primary entry-point into syncing logic.
 # * fetches songs from specified BeastSaber user's bookmarks
@@ -21,32 +19,16 @@ class BeastSaberSync
 
   def call
     puts 'Syncing...'
-    each_song do |song|
+    beast_saber.each_song do |song|
       puts "#{song['song_key']} - #{song['hash']} - #{song['title']}"
     end
   end
 
 private
 
-  def each_song
-    params = { bookmarked_by: context.username }
-    loop do
-      response = client.get('songs', params)
-      response.body['songs'].each do |song|
-        yield(song)
-      end
-      break if response.body['next_page'].nil?
-      params[:page] = response.body['next_page']
-    end
-  end
-
-  def client
-    @client ||= Faraday.new(
-      url: 'https://bsaber.com/wp-json/bsaber-api/'
-    ) do |faraday|
-      faraday.request  :json
-      faraday.response :json, content_type: /\bjson$/
-      faraday.adapter  :net_http
-    end
+  def beast_saber
+    @beast_saber ||= BeastSaber.new(
+      username: context.username
+    )
   end
 end
