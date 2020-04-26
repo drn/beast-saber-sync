@@ -7,6 +7,17 @@ Syncs installed custom beatsaber songs with BeastSaber bookmarks.
 After running into multiple issues with with BeatDrop, SyncSaberService, and
 others tools - ended up rolling my own.
 
+## Installation
+
+```bash
+git clone https://github.com/drn/beast-saber-sync.git ~/sync 2>/dev/null
+cd ~/sync
+git fetch
+git reset --hard origin/master
+bundle
+./sync
+```
+
 ## References
 
 * [SyncSaberService](https://github.com/Zingabopp/SyncSaberService/blob/master/SyncSaberLib/SyncSaber.cs)

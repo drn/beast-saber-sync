@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.push File.expand_path('lib')
+$stdout.sync = true
+
+# bundler setup
+require 'rubygems'
+require 'bundler/setup'
+
+puts 'Syncing...'
