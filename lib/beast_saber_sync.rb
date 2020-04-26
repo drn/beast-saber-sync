@@ -52,7 +52,7 @@ private
 
   def load_downloaded!
     beat_saber.songs.each do |song|
-
+      puts JSON.pretty_generate(song)
     end
   end
 
