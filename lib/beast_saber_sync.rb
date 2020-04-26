@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'beast_saber'
+require 'beat_saber'
 require 'interactor'
 
 # Primary entry-point into syncing logic.
@@ -15,12 +16,16 @@ class BeastSaberSync
 
   before do
     context.username ||= 'sanguinerane'
+    context.path ||= '/cygdrive/f/Program Files (x86)/Steam/steamapps/common/Beat Saber'
     context.data = {}
   end
 
   def call
     puts 'Syncing...'
     load_bookmarks!
+    load_downloaded!
+    # download!
+    # prune!
     puts JSON.pretty_generate(context.data)
   end
 
@@ -39,9 +44,19 @@ private
     end
   end
 
+  def load_downloaded!
+    beat_saber.songs.each do |song|
+
+    end
+  end
+
   def beast_saber
     @beast_saber ||= BeastSaber.new(
       username: context.username
     )
+  end
+
+  def beat_saber
+    @beat_saber ||= BeatSaber.new
   end
 end
