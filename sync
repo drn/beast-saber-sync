@@ -3,8 +3,8 @@
 $LOAD_PATH.push File.expand_path('lib')
 $stdout.sync = true
 
-# bundler setup
 require 'rubygems'
 require 'bundler/setup'
+require 'beast_saber_sync'
 
-puts 'Syncing...'
+BeastSaberSync.run
