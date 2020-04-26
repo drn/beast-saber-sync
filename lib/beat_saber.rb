@@ -15,6 +15,6 @@ class BeatSaber
 private
 
   def files
-    Dir.entries(@path + '/Beat Saber_Data/CustomLevels')
+    Dir.children(@path + '/Beat Saber_Data/CustomLevels')
   end
 end
