@@ -34,8 +34,7 @@ class BeastSaberSync
     load_bookmarks!
     load_downloaded!
     download!
-    # prune!
-    # puts JSON.pretty_generate(context.data)
+    prune!
   end
 
 private
@@ -60,6 +59,7 @@ private
       context.data[hash][:key] ||= song[:key]
       context.data[hash][:title] ||= song[:title]
       context.data[hash][:author] ||= song[:author]
+      context.data[hash][:filename] ||= song[:filename]
     end
   end
 
@@ -67,7 +67,7 @@ private
     context.data.each do |hash, song|
       next if song[:downloaded]
       next unless song[:bookmarked]
-      puts "download - #{song[:title]}"
+      puts "Downloading #{song[:title]}"
       beat_saver.download!(hash)
     end
   end
@@ -77,7 +77,15 @@ private
       next unless song[:downloaded]
       next if song[:builtin]
       next if song[:bookmarked]
-      puts "prune - #{song[:title]}"
+      next unless song[:filename]
+      puts "Pruning #{song[:title]}"
+
+      destination =  [
+        context.path,
+        '/Beat Saber_Data/CustomLevels/',
+        song[:filename]
+      ].join
+      FileUtils.rm_rf(destination) if File.directory?(destination)
     end
   end
 
