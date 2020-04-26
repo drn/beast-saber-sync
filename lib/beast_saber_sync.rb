@@ -52,7 +52,12 @@ private
 
   def load_downloaded!
     beat_saber.songs.each do |song|
-      puts JSON.pretty_generate(song)
+      hash = song[:hash]
+      context.data[hash] ||= {}
+      context.data[hash][:downloaded] = true
+      context.data[hash][:key] ||= song[:key]
+      context.data[hash][:title] ||= song[:title]
+      context.data[hash][:author] ||= song[:author]
     end
   end
 
