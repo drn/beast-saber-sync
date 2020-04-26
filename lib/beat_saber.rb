@@ -28,9 +28,10 @@ private
     _, key, title, author = filename.match(PARSE_REGEX).to_a
     {
       key:      key,
-      title:    title,
+      title:    title || filename,
       author:   author,
-      filename: filename
+      filename: filename,
+      builtin:  filename.include?('Built in')
     }
   end
 

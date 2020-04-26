@@ -32,9 +32,9 @@ class BeastSaberSync
     puts 'Syncing...'
     load_bookmarks!
     load_downloaded!
-    # download!
-    # prune!
-    puts JSON.pretty_generate(context.data)
+    download!
+    prune!
+    # puts JSON.pretty_generate(context.data)
   end
 
 private
@@ -55,9 +55,27 @@ private
       hash = song[:hash]
       context.data[hash] ||= {}
       context.data[hash][:downloaded] = true
+      context.data[hash][:builtin] = song[:builtin]
       context.data[hash][:key] ||= song[:key]
       context.data[hash][:title] ||= song[:title]
       context.data[hash][:author] ||= song[:author]
+    end
+  end
+
+  def download!
+    context.data.each do |hash, song|
+      next if song[:downloaded]
+      next unless song[:bookmarked]
+      puts "download - #{song[:title]}"
+    end
+  end
+
+  def prune!
+    context.data.each do |hash, song|
+      next unless song[:downloaded]
+      next if song[:builtin]
+      next if song[:bookmarked]
+      puts "prune - #{song[:title]}"
     end
   end
 
