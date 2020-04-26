@@ -34,13 +34,12 @@ private
   def load_bookmarks!
     beast_saber.each_song do |song|
       key = song['song_key']
-      hash = song['hash']
-      title = song['title']
 
       context.data[key] ||= {}
       context.data[key][:bookmarked] = true
-      context.data[key][:title] = title
-      context.data[key][:hash] = hash
+      context.data[key][:title] = song['title']
+      context.data[key][:hash] = song['hash']
+      context.data[key][:author] = song['level_author_name']
     end
   end
 
