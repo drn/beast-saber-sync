@@ -19,7 +19,7 @@ class BeatSaber
       next unless File.exists?(filepath)
       data = JSON.parse(File.read(filepath))
       data.merge(parse_path(filename)).transform_keys(&:to_sym)
-    end
+    end.compact
   end
 
 private

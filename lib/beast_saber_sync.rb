@@ -2,6 +2,7 @@
 
 require 'beast_saber'
 require 'beat_saber'
+require 'beat_saver'
 require 'interactor'
 
 # Primary entry-point into syncing logic.
@@ -33,7 +34,7 @@ class BeastSaberSync
     load_bookmarks!
     load_downloaded!
     download!
-    prune!
+    # prune!
     # puts JSON.pretty_generate(context.data)
   end
 
@@ -67,6 +68,7 @@ private
       next if song[:downloaded]
       next unless song[:bookmarked]
       puts "download - #{song[:title]}"
+      beat_saver.download!(hash)
     end
   end
 
@@ -87,6 +89,12 @@ private
 
   def beat_saber
     @beat_saber ||= BeatSaber.new(
+      path: context.path
+    )
+  end
+
+  def beat_saver
+    @beat_saver ||= BeatSaver.new(
       path: context.path
     )
   end
