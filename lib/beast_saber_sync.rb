@@ -3,6 +3,7 @@
 require 'interactor'
 require 'faraday'
 require 'faraday_middleware'
+require 'pry'
 
 # Primary entry-point into syncing logic.
 # * fetches songs from specified BeastSaber user's bookmarks
@@ -20,15 +21,22 @@ class BeastSaberSync
 
   def call
     puts 'Syncing...'
-    songs
+    each_song do |song|
+      puts "#{song['song_key']} - #{song['hash']} - #{song['title']}"
+    end
   end
 
 private
 
-  def songs
-    response = client.get('songs', bookmarked_by: context.username)
-    response.body['songs'].each do |song|
-      puts "#{song['song_key']} - #{song['hash']} - #{song['title']}"
+  def each_song
+    params = { bookmarked_by: context.username }
+    loop do
+      response = client.get('songs', params)
+      response.body['songs'].each do |song|
+        yield(song)
+      end
+      break if response.body['next_page'].nil?
+      params[:page] = response.body['next_page']
     end
   end
 
