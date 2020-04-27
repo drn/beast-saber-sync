@@ -10,7 +10,7 @@ class BeastSaber
   end
 
   def each_song
-    params = { bookmarked_by: @username }
+    params = { bookmarked_by: @username, count: 200 }
     loop do
       response = client.get('songs', params)
       response.body['songs'].each do |song|
