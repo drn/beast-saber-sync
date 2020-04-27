@@ -36,6 +36,8 @@ class BeastSaberSync
     download!
     prune!
     update_playlist!
+    total = context.data.count{ |_, song| song[:bookmarked] }
+    puts "Loaded #{total} custom songs"
   end
 
 private
