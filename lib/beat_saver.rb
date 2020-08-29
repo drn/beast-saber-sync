@@ -30,9 +30,10 @@ class BeatSaver
     key = response.body['key']
     name = response.body['name']
     author = response.body['uploader']['username']
-    folder = "#{key} (#{name} - #{author})"
+    folder = +"#{key} (#{name} - #{author})"
+    folder.gsub!('/', ' ') # ensure filename excludes conflicting /s
 
-    destination =  @path + '/Beat Saber_Data/CustomLevels/' + folder
+    destination = @path + '/Beat Saber_Data/CustomLevels/' + folder
 
     # create directory
     FileUtils.rm_rf(destination) if File.directory?(destination)
