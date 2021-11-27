@@ -13,23 +13,25 @@ class BeatSaver
 
   def download!(hash)
     # download metadata
-    response = client.get("api/maps/by-hash/#{hash}")
+    response = client.get("api/maps/hash/#{hash}")
     unless response.success?
       puts "Failed to query #{hash}"
       return
     end
 
     # download song
-    download = client.get(response.body['directDownload'])
+    latest_version = response.body['versions'][0]
+    download_url = latest_version['downloadURL']
+    download = client.get(download_url)
     unless download.success?
       puts "Failed to download #{hash}"
       return
     end
 
     # folder name
-    key = response.body['key']
+    key = response.body['id']
     name = response.body['name']
-    author = response.body['uploader']['username']
+    author = response.body['uploader']['name']
     folder = +"#{key} (#{name} - #{author})"
     folder.gsub!('/', ' ') # ensure filename excludes conflicting /s
 
