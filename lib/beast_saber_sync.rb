@@ -19,7 +19,7 @@ class BeastSaberSync
     context.username ||= 'sanguinerane'
     context.path ||= [
       '/cygdrive',
-      'j',
+      'f',
       'Program Files (x86)',
       'Steam',
       'steamapps',
